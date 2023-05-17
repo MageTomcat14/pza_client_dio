@@ -9,8 +9,8 @@ BROKER_PORT=1883
 
     
 # one topic per io
-pzaTOPIC=f"pza/lab_paul/io_pza_controling/testing_of_io_controling{6}"
-pzaTOPIC1=f"pza/lab_paul/io_pza_controling/testing_of_io_controling{7}"
+pzaTOPIC_OUT=f"pza/lab_paul/io_pza_controling/testing_of_io_controling{6}"
+pzaTOPIC_IN=f"pza/lab_paul/io_pza_controling/testing_of_io_controling{7}"
 
 
 
@@ -26,30 +26,34 @@ for topic in inter:
     print(f"- {topic} => {inter[topic]['type']}")
 
     # declare instances of dio. One per io control
-d = Dio(addr=BROKER_ADDR, port=BROKER_PORT, topic=pzaTOPIC, client=pzaClient)
-d1 = Dio(addr=BROKER_ADDR, port=BROKER_PORT, topic=pzaTOPIC1, client=pzaClient)
+d = Dio(addr=BROKER_ADDR, port=BROKER_PORT, topic=pzaTOPIC_OUT, client=pzaClient)
+d1 = Dio(addr=BROKER_ADDR, port=BROKER_PORT, topic=pzaTOPIC_IN, client=pzaClient)
 
 
 print(f"setting the values for GPIO {0}, must see led {1} toggle..")
 
 while True:
-   
-    d.direction.value.set("out")
-    time.sleep(1)
-    d.direction.pull.set("up")
-    time.sleep(1)
-    d.direction.polling_cycle.set(1)
-    time.sleep(1)
+    try:
+        d.direction.value.set("out")
+        d1.direction.value.set("in")
+        d.direction.pull.set("up")
 
-    d.state.active_low.set(False)
-    time.sleep(1)
-    d.state.active.set(True)
-    time.sleep(1)
-    print(f" value of the input {d1.state.active.get()}")
-    time.sleep(2)
-    d.state.active.set(False)
-    time.sleep(1)
-    d.state.polling_cycle.set(1)
-    time.sleep(1)
+        d.direction.polling_cycle.set(1)
+        d.state.polling_cycle.set(1)
+        d1.direction.polling_cycle.set(1)
+        d1.state.polling_cycle.set(1)
 
-    print(f" value of the input {d1.state.active.get()}")
+
+        d.state.active_low.set(False)
+        d.state.active.set(True)
+        time.sleep(1)
+        print(f" value of the input {d1.state.active.get()}")
+        time.sleep(1)
+        d.state.active.set(False)
+        time.sleep(1)
+        print(f" value of the input {d1.state.active.get()}")
+        time.sleep(1)
+    except:
+       d.state.active.set(False)
+       d1.state.active.set(False)
+       exit()
