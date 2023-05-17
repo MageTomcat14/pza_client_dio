@@ -15,17 +15,18 @@ master = ModbusSerialClient(framer=ModbusRtuFramer, port = '/dev/ttyACM0', stopb
 # getting value of output in input test
 addrW = 64  # apply offset of 64 to write and read coil
 addrR = 65
-# print("\033[92m-------------------writing IO 0----------------------\033[0m")
+print("\033[92m-------------------writing IO 0----------------------\033[0m")
 testWrite = master.write_coil(address = 0, value = True, slave = 0x01) 
 testWrite = master.write_coil(address = addrW, value = True, slave = 0x01)
 print(testWrite.__dict__)
 
-print("\033[92m-------------------reading----------------------\033[0m")
-testReceive = master.read_discrete_inputs(address = 1, count = 1, slave = 0x01)
-print(testReceive.buts)
-
-
-
-# push button test
-# testReceive = master.read_discrete_inputs(address = 1,count = 1,slave = 0x01)
+# print("\033[92m-------------------reading----------------------\033[0m")
+# testReceive = master.read_discrete_inputs(address = 1, count = 1, slave = 0x01)
 # print(testReceive.bits)
+
+
+
+# # push button test
+# testWrite = master.write_coil(address = 16, value = False, slave = 0x01) 
+testReceive = master.read_discrete_inputs(address = 17,count = 1,slave = 0x01)
+print(testReceive.bits)
