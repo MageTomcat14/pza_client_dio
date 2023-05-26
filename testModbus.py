@@ -1,3 +1,12 @@
+######################################################
+#
+#          SCRIPT USED TO TEST PICO FIRMWARE
+#
+######################################################
+
+
+
+
 from pymodbus.client import ModbusSerialClient
 from pymodbus.transaction import ModbusRtuFramer
 import time
