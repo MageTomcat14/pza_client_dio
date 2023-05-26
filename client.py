@@ -4,21 +4,27 @@ import time
 BROKER_ADDR="localhost"
 BROKER_PORT=1883
 
-num = []
 
-topicBegin = "pza/lab_paul/io_pza_controling/testing_of_io_controling-"
 
-Core.LoadAliases(json_filepath="clientConf.json")
-    
+
+Core.LoadAliases({
+    "local": {
+        "url": "localhost",
+        "port": 1883,
+        "interfaces": {}
+    }
+})
+
 pzaPaulClient = Client(broker_alias="local")
 pzaPaulClient.connect()
 
 inter = pzaPaulClient.scan_interfaces()
 
+num = []
+topicBegin = "pza/lab_paul/io_pza_controling/testing_of_io_controling-"
 
 for topic in inter:
-    if str(inter[topic]['type']).rjust(10) == str('       DIO'): # load the DIO topics from json
-
+    if str(inter[topic]['type']).rjust(10) == str('       DIO'):
         print(f"list of the TOPICS => {topic}")
         getioNumber = topic.split(topicBegin)[1]
         toInt = int(getioNumber)
