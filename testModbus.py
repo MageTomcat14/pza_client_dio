@@ -1,6 +1,6 @@
 ######################################################
 #
-#          SCRIPT USED TO TEST PICO FIRMWARE
+#          SCRIPT ONLY USED TO TEST PICO FIRMWARE
 #
 ######################################################
 
